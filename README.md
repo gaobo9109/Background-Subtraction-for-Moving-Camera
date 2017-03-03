@@ -19,10 +19,10 @@ Compilation and usage
 
 * In command line, go to project root directory
 
-1. mkdir build
-2. cd build
-3. cmake ..
-4. make
+  1. mkdir build
+  2. cd build
+  3. cmake ..
+  4. make
 
 * Once the project is built, you can try:
 
