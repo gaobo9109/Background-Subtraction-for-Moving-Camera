@@ -24,7 +24,8 @@ In command line, go to project root directory
 3. cmake ..
 4. make
 
-Once the project is built, you can try
-'''
+Once the project is built, you can try:
+
+'''bash
 ./dual_sgm ../data/walking.avi
 '''
