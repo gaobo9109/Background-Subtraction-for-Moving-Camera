@@ -161,7 +161,6 @@ void BGModelMog::updateModel(Mat &image, Mat &fgmask, Mat &bgimg, float learning
                                 std::swap(mean[i*nchannels + c], mean[(i-1)*nchannels + c]);
                         }
                         //belongs to the mode - bFitsPDF becomes 1
-                        /////
                     }
                 }//!bFitsPDF)
 
