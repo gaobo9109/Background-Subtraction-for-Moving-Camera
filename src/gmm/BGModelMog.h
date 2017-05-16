@@ -3,8 +3,7 @@
 
 #include <Eigen/Geometry>
 #include <opencv2/opencv.hpp>
-//#include "../util/warp_image.h"
-#include "../util/image_transformer.h"
+#include <bgs_util/image_transformer.h>
 
 namespace BGS_LB
 {

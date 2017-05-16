@@ -3,12 +3,12 @@
 
 #include <opencv2/opencv.hpp>
 #include <Eigen/Geometry>
-#include "../util/image_transformer.h"
+#include <bgs_util/image_transformer.h>
 #include <memory>
 
 using namespace cv;
 
-namespace BGS_ZIKOVIC
+namespace GMM_ZIKOVIC
 {
 static const int defaultHistory2 = 500; // Learning rate; alpha = 1/defaultHistory2
 static const float defaultVarThreshold2 = 4.0f*4.0f;
@@ -27,43 +27,50 @@ struct GMM
     float var;
 };
 
-class BGModelMog
+class BGModelMOG
 {
 public:
-    BGModelMog(Intrinsic intrinsic);
-    BGModelMog();
-    void process(Mat &image, Mat &fgmask, Mat &background,double learningRate=-1);
+    BGModelMOG();
+    void process(Mat &image, Mat &fgmask, Mat &background,float learningRate=-1);
     void process(Mat &image, Mat &depth, Eigen::Affine3d &transform,
-                 Mat &fgmask, Mat &background, double learningRate=-1);
+                 Mat &fgmask, Mat &background, float learningRate=-1);
 
 
 private:
     void initialize(Size _frameSize, int _frameType);
+    void initialize(Size _frameSize, int _frameType, Intrinsic &intrinsic);
     void updateModel(Mat &image, Mat &fgmask, Mat &bgimg, float learningRate);
-    void warpModel(Mat &image, Mat &depth, Mat &fgmask, Eigen::Affine3d &transform);
-    void updateWarpedModel(Mat &image, Mat &bgimg, float learningRate);
+    void warpModel(Mat &image, Mat &depth, Mat &fgmask, Eigen::Affine3d &transform, float learningRate);
+    void updateWarpedModel(Mat &image, Mat &fgmask, Mat &bgimg, float learningRate);
+    void showBackgroundImage();
+    void showDifferenceImage(Mat &img1, Mat &img2);
 
+    Mat bgmodel;
+    Mat prev_img;
+    Mat bgmodelUsedModes;//keep track of number of modes per pixel
+    Mat update_mask;
+
+    GMM* gmm0;
+    float* mean0;
+    uchar* modesUsed0;
+
+    std::shared_ptr<ImageTransformer> transformer;
 
     Size frameSize;
     int frameType;
-
-    Mat bgmodel;
-    Mat bgmodelUsedModes;//keep track of number of modes per pixel
-
-    Mat prev_img;
-    Mat updateMask;
-    std::shared_ptr<ImageTransformer> transformer;
-    bool hasTransformer;
 
     int nframes;
     int history;
     int nmixtures;
     float varThreshold;
     float backgroundRatio;
+
     float varThresholdGen;
     float fVarInit;
     float fVarMin;
     float fVarMax;
+
+
 
 };
 
